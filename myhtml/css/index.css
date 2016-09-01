@@ -1,7 +1,8 @@
 body{
 	text-align: center;
-	background-image: url("../img/background.jpg");
-
+	background-image: url("../img/back3.jpg");
+	background-repeat: no-repeat;
+	background-size: 100%, 100%;
 }
 
 
@@ -24,13 +25,15 @@ div.box{
 }
 
 .navi{
+	min-width: 125px;
 	line-height:40px;
 	height:95%;
 	justify-content:center;
 	width:24.9%;
 	flex-grow:1;
 	font-weight: 900;
-	background-color: #1DEAEC;
+	background-color: #0B9192;
+	padding: 0px;	
 	
 }
 
