@@ -6,7 +6,7 @@ body{
 	margin:0px;
 	padding:0px;
 	text-align: center;
-	background-color: blue;
+	/*background-color: blue;*/
 }
 
 h1{
@@ -63,3 +63,6 @@ div.box{
 #fi_na, #th_na{
 	background-color: white;
 }
+
+
+
