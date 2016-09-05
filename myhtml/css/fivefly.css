@@ -34,3 +34,7 @@ div.chessboard div.black {
    background: url("../img/fivefly/black.png") no-repeat 4px 4px;
 
 }
+div.chessboard div.white {
+    background: url("../img/fivefly/white.png") no-repeat 4px 4px;
+
+}

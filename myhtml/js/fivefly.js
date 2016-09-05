@@ -66,20 +66,46 @@
     var body = DOC.body;
     var Debug = $G('debug', 1);
 
-        function initChess(){
-        var chess_board=$$(".chessboard");
-        for(var i=0; i<15; i++){
-            for(var j=0; j<15; j++){
-                 var chess =$_("div",chess_board[0],"","chess");
-                 chess.onclick = function(){
-                    $CLS(this,"black","add")
-                 }
-            }
+var Game= {
+    currTurn:"black",
+    posX:0,
+    posY:0,
+
+    colorChange: function(){
+        if(Game.currTurn == "black"){
+            Game.currTurn = "white";
         }
+        else{
+            Game.currTurn = "black";
+        }
+    },
+
+
+
+
+    chessStep: function (pos) {
+        Game.colorChange();
+        $CLS(pos, Game.currTurn, "add");
+        console.log(pos)
+    },
+        initChess: function() {
+            var chess_board = $$(".chessboard");
+            for (var i = 0; i < 15; i++) {
+                for (var j = 0; j < 15; j++) {
+                    var chess = $_("div", chess_board[0], "", "chess");
+                    chess.onclick = function () {
+                        (Game.chessStep(this));
+                    }
+                    //$CLS(this,"black","add")
+                }
+            }
+        },
+
 
     }
 
-    initChess();
+
+    Game.initChess();
     // console.log($$(".chess")[0]);
     // var i = 0;
     // var chessPos = $$(".chess")[i];
