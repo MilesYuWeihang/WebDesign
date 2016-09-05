@@ -70,16 +70,22 @@
         var chess_board=$$(".chessboard");
         for(var i=0; i<15; i++){
             for(var j=0; j<15; j++){
-                var chess = $_("div",chess_board,"","chess");
-
-                $T(chess[i*14+j],i+j)
-                console.log("aa")
+                 var chess =$_("div",chess_board[0],"","chess");
+                 chess.onclick = function(){
+                    $CLS(this,"black","add")
+                 }
             }
         }
 
-
-
     }
+
     initChess();
+    // console.log($$(".chess")[0]);
+    // var i = 0;
+    // var chessPos = $$(".chess")[i];
+    // chessPos.onclick =function () {
+        
+    //     console.log("hhhhhhhhhh");
+    // };
     console.log("chess loaded");
 })()
