@@ -66,10 +66,20 @@
     var body = DOC.body;
     var Debug = $G('debug', 1);
 
+    var board = new Array();
+    for(var i=0;i<15;i++){
+        board[i]=new Array();
+        for(var j=0;j<=15;j++)
+        {
+            board[i][j]=0;
+        }
+    }
+
 var Game= {
     currTurn:"black",
     posX:0,
     posY:0,
+
 
     colorChange: function(){
         if(Game.currTurn == "black"){
@@ -86,7 +96,7 @@ var Game= {
     chessStep: function (pos) {
         Game.colorChange();
         $CLS(pos, Game.currTurn, "add");
-        console.log(pos)
+        //console.log(pos.className.indexOf("black"||"chess"))
     },
         initChess: function() {
             var chess_board = $$(".chessboard");
@@ -94,7 +104,11 @@ var Game= {
                 for (var j = 0; j < 15; j++) {
                     var chess = $_("div", chess_board[0], "", "chess");
                     chess.onclick = function () {
-                        (Game.chessStep(this));
+                        if((this.className.indexOf("black") <= -1) &&
+                        (this.className.indexOf("white") <= -1)) {
+                            console.log($$(".chess")[1] == this);
+                            (Game.chessStep(this));
+                        }
                     }
                     //$CLS(this,"black","add")
                 }
