@@ -71,6 +71,11 @@
             }
         }
     }
+    function markPos(i, j){
+        var index = i*15+j+1;
+        var tar = chess_board.childNodes[index];
+        tar.src='images
+
 
 var Game= {
     start : 1,
@@ -118,9 +123,9 @@ var Game= {
         // left-top to right-btm
         var left = Math.min(posX,posY,5);
         var right = Math.min(14-posX,14-posY,5);
-        console.log("lr");
-        console.log(left);
-        console.log(right);
+        // console.log("lr");
+        // console.log(left);
+        // console.log(right);
         for(var i = posX-left, j = posY-left; i <= posX+right, j <= posY+right ;i++,j++){
             if(board[i][j] == color){
                 conti = 1;
@@ -136,8 +141,21 @@ var Game= {
 
         }
         num=0;
-        // right-top to left-btm
-        var left = Math.min
+        // left-btm to right-top to 
+        var left = Math.min(14-posX,posY,5);
+        var right = Math.min(14-posY,posX,5);
+        for(var i = posX+left, j = posY-left; i<=posX-right, j<=posY+right; i--,j++){
+            if(board[i][j] == color){
+                conti = 1;
+                num++;
+
+                if(num>=5) return 4;
+            }
+            else{
+                conti = 0;
+                num = 0;
+            }
+        }
 
         return false;
 
@@ -170,16 +188,16 @@ var Game= {
         //step2: check isWin
         var winWay = Game.isWin();
         if(winWay){
-            Game.start = 0;
-
+            Game.endGame(winWay);
 
         }
-        
-
-
-        
-
     },
+        
+
+
+        
+
+    
         
     initChess: function() {
             Game.start = 1;
@@ -205,12 +223,24 @@ var Game= {
                 }
             }
         },
+
+    endGame: function(opt){
+        Game.start = 0;
+        // switch(opt){
+        //     case 1:
+        //         for(var )
+
+        },
+    }
+
+    
                         
 
-    }
+    
 
 
     Game.initChess();
+    markPos(1,1)
     // console.log($$(".chess")[0]);
     // var i = 0;
     // var chessPos = $$(".chess")[i];
