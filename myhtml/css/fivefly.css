@@ -3,7 +3,7 @@
     position: relative;
 }
 
-div.chessboard{
+#chessboard{
 
     margin: 30px 0 0 50px;
     height:  542px;
@@ -16,7 +16,7 @@ div.chessboard{
 
 }
 
-div.chessboard div{
+#chessboard div{
     float: left;
     width: 36px;
     height: 36px;
@@ -30,11 +30,11 @@ div.chessboard div{
 
 
 
-div.chessboard div.black {
+#chessboard div.black {
    background: url("../img/fivefly/black.png") no-repeat 4px 4px;
 
 }
-div.chessboard div.white {
+#chessboard div.white {
     background: url("../img/fivefly/white.png") no-repeat 4px 4px;
 
 }

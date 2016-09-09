@@ -50,18 +50,6 @@
         $FORMATTIME = Base.formatTime,
         $BAIDU = Base.baidu;
 
-    var Caller;
-
-    var IsAdLX = $ISLX() === 'a' || $ISLX() === 'i';
-    //var LXCfg = $GETLXCONFIGINFO(1);
-    var LXCfg = null;
-    var IsEncryption = 0; //????
-    var VoiceType = $G("type"); //??????
-    var VoiceCat = $G("cat"); //??????
-    var IsTxt = ($G('istxt') === '1') ? 1 : 0;
-    var IsCaller = $G("caller");
-    var qdCaller = '';
-    var IsReload;
 
     var body = DOC.body;
     var Debug = $G('debug', 1);
@@ -69,16 +57,91 @@
     var board = new Array();
     for(var i=0;i<15;i++){
         board[i]=new Array();
-        for(var j=0;j<=15;j++)
+        for(var j=0;j<15;j++)
         {
             board[i][j]=0;
         }
     }
+    var chess_board = $$("#chessboard");
+    function index(Obj){
+
+        for (var i=0; i<255;i++){
+            if(chess_board.childNodes[i] == Obj){
+                return i;
+            }
+        }
+    }
 
 var Game= {
+    start : 1,
     currTurn:"black",
     posX:0,
     posY:0,
+
+//isWin: return 0 not win
+//       return 1 row win
+//       return 2 column win
+//              3 left-top to right-btm
+//              4 right-top to left-btm
+    isWin: function(){
+        var num = 0;
+        var conti = 1;
+        var color = board[posX][posY];
+        //row
+        for(var j=Math.max((posY-5),0); j<=Math.min(posY+5,14);j++){
+            if(board[posX][j] == color){
+                conti = 1;
+                num++;
+                if(num>=5) return 1;
+            }
+            else{
+                conti = 0;
+                num = 0;
+            }
+            
+        }
+        num=0;
+        //column
+        for(var i=Math.max((posX-5),0); i<=Math.min(posX+5,14);i++){
+            if(board[i][posY] == color){
+                conti = 1;
+                num++;
+                if(num>=5) return 2;
+            }
+            else{
+                conti = 0;
+                num = 0;
+            }
+            
+        }
+        num=0;
+        // left-top to right-btm
+        var left = Math.min(posX,posY,5);
+        var right = Math.min(14-posX,14-posY,5);
+        console.log("lr");
+        console.log(left);
+        console.log(right);
+        for(var i = posX-left, j = posY-left; i <= posX+right, j <= posY+right ;i++,j++){
+            if(board[i][j] == color){
+                conti = 1;
+                num++;
+
+                if(num>=5) return 3;
+            }
+            else{
+                conti = 0;
+                num = 0;
+            }
+            
+
+        }
+        num=0;
+        // right-top to left-btm
+        var left = Math.min
+
+        return false;
+
+    },
 
 
     colorChange: function(){
@@ -94,19 +157,47 @@ var Game= {
 
 
     chessStep: function (pos) {
+        //step1: input position into board
         Game.colorChange();
         $CLS(pos, Game.currTurn, "add");
-        //console.log(pos.className.indexOf("black"||"chess"))
+        if(Game.currTurn=="black"){
+            board[posX][posY] = 1;
+        }
+        else{
+            board[posX][posY] = 2;
+        }
+
+        //step2: check isWin
+        var winWay = Game.isWin();
+        if(winWay){
+            Game.start = 0;
+
+
+        }
+        
+
+
+        
+
     },
-        initChess: function() {
-            var chess_board = $$(".chessboard");
+        
+    initChess: function() {
+            Game.start = 1;
             for (var i = 0; i < 15; i++) {
                 for (var j = 0; j < 15; j++) {
-                    var chess = $_("div", chess_board[0], "", "chess");
+                    var chess = $_("div", chess_board, "", "chess");
                     chess.onclick = function () {
+                        if(Game.start == 0){
+                            return;
+                        }
                         if((this.className.indexOf("black") <= -1) &&
                         (this.className.indexOf("white") <= -1)) {
-                            console.log($$(".chess")[1] == this);
+                        var idx = index(this) -1;
+                        posX= idx/15|0;
+                        posY= idx%15;
+                        // console.log(idx)
+                        console.log(posX);
+                        console.log(posY);
                             (Game.chessStep(this));
                         }
                     }
@@ -114,7 +205,7 @@ var Game= {
                 }
             }
         },
-
+                        
 
     }
 
