@@ -71,87 +71,114 @@
             }
         }
     }
-    function markPos(i, j){
-        var index = i*15+j+1;
+    function markPos(i, j, color) {
+        var index = i * 15 + j + 1;
         var tar = chess_board.childNodes[index];
-        tar.src='images
+        if (color == "black"){
+
+            $CLS(tar, "black", "del");
+            $CLS(tar, "black-mark","add");
+        }
+        else{
+
+            $CLS(tar, "white", "del");
+            $CLS(tar, "white-mark","add");
+            }
+    }
+
+    function deMark(i,j,color){
+        var index = i * 15 + j + 1;
+        var tar = chess_board.childNodes[index];
+        if (color == "black"){
+
+            $CLS(tar, "black-mark", "del");
+            $CLS(tar, "black","add");
+        }
+        else{
+
+            $CLS(tar, "white-mark", "del");
+            $CLS(tar, "white","add");
+        }
+    }
 
 
 var Game= {
-    start : 1,
-    currTurn:"black",
-    posX:0,
-    posY:0,
+    start: 1,
+    currTurn: "black",
+    posX: 0,
+    posY: 0,
+    lastX: 0,
+    lastY: 0,
 
 //isWin: return 0 not win
 //       return 1 row win
 //       return 2 column win
 //              3 left-top to right-btm
 //              4 right-top to left-btm
-    isWin: function(){
+    isWin: function () {
         var num = 0;
         var conti = 1;
-        var color = board[posX][posY];
+        var color = board[Game.posX][Game.posY];
         //row
-        for(var j=Math.max((posY-5),0); j<=Math.min(posY+5,14);j++){
-            if(board[posX][j] == color){
+        for (var j = Math.max((Game.posY - 5), 0); j <= Math.min(Game.posY + 5, 14); j++) {
+            if (board[Game.posX][j] == color) {
                 conti = 1;
                 num++;
-                if(num>=5) return 1;
+                if (num >= 5) return 1;
             }
-            else{
+            else {
                 conti = 0;
                 num = 0;
             }
-            
+
         }
-        num=0;
+        num = 0;
         //column
-        for(var i=Math.max((posX-5),0); i<=Math.min(posX+5,14);i++){
-            if(board[i][posY] == color){
+        for (var i = Math.max((Game.posX - 5), 0); i <= Math.min(Game.posX + 5, 14); i++) {
+            if (board[i][Game.posY] == color) {
                 conti = 1;
                 num++;
-                if(num>=5) return 2;
+                if (num >= 5) return 2;
             }
-            else{
+            else {
                 conti = 0;
                 num = 0;
             }
-            
+
         }
-        num=0;
+        num = 0;
         // left-top to right-btm
-        var left = Math.min(posX,posY,5);
-        var right = Math.min(14-posX,14-posY,5);
+        var left = Math.min(Game.posX, Game.posY, 5);
+        var right = Math.min(14 -Game. posX, 14 - Game.posY, 5);
         // console.log("lr");
         // console.log(left);
         // console.log(right);
-        for(var i = posX-left, j = posY-left; i <= posX+right, j <= posY+right ;i++,j++){
-            if(board[i][j] == color){
+        for (var i = Game.posX - left, j = Game.posY - left; i <= Game.posX + right, j <= Game.posY + right; i++, j++) {
+            if (board[i][j] == color) {
                 conti = 1;
                 num++;
 
-                if(num>=5) return 3;
+                if (num >= 5) return 3;
             }
-            else{
+            else {
                 conti = 0;
                 num = 0;
             }
-            
+
 
         }
-        num=0;
+        num = 0;
         // left-btm to right-top to 
-        var left = Math.min(14-posX,posY,5);
-        var right = Math.min(14-posY,posX,5);
-        for(var i = posX+left, j = posY-left; i<=posX-right, j<=posY+right; i--,j++){
-            if(board[i][j] == color){
+        var left = Math.min(14 - Game.posX, Game.posY, 5);
+        var right = Math.min(14 - Game.posY, Game.posX, 5);
+        for (var i = Game.posX + left, j = Game.posY - left; i <= Game.posX - right, j <= Game.posY + right; i--, j++) {
+            if (board[i][j] == color) {
                 conti = 1;
                 num++;
 
-                if(num>=5) return 4;
+                if (num >= 5) return 4;
             }
-            else{
+            else {
                 conti = 0;
                 num = 0;
             }
@@ -162,76 +189,80 @@ var Game= {
     },
 
 
-    colorChange: function(){
-        if(Game.currTurn == "black"){
+    colorChange: function () {
+        if (Game.currTurn == "black") {
             Game.currTurn = "white";
         }
-        else{
+        else {
             Game.currTurn = "black";
         }
     },
-
-
 
 
     chessStep: function (pos) {
         //step1: input position into board
         Game.colorChange();
         $CLS(pos, Game.currTurn, "add");
-        if(Game.currTurn=="black"){
-            board[posX][posY] = 1;
+        if (Game.currTurn == "black") {
+            board[Game.posX][Game.posY] = 1;
         }
-        else{
-            board[posX][posY] = 2;
+        else {
+            board[Game.posX][Game.posY] = 2;
         }
 
         //step2: check isWin
         var winWay = Game.isWin();
-        if(winWay){
+        var tempColor = (Game.currTurn=="black"? "white":"black");
+        deMark(Game.lastX,Game.lastY, (Game.currTurn=="black"? "white":"black"));
+        markPos(Game.posX, Game.posY, Game.currTurn);
+        if (winWay) {
             Game.endGame(winWay);
 
         }
     },
-        
 
 
-        
-
-    
-        
-    initChess: function() {
-            Game.start = 1;
-            for (var i = 0; i < 15; i++) {
-                for (var j = 0; j < 15; j++) {
-                    var chess = $_("div", chess_board, "", "chess");
-                    chess.onclick = function () {
-                        if(Game.start == 0){
-                            return;
-                        }
-                        if((this.className.indexOf("black") <= -1) &&
-                        (this.className.indexOf("white") <= -1)) {
-                        var idx = index(this) -1;
-                        posX= idx/15|0;
-                        posY= idx%15;
-                        // console.log(idx)
-                        console.log(posX);
-                        console.log(posY);
-                            (Game.chessStep(this));
-                        }
+    initChess: function () {
+        Game.start = 1;
+        for (var i = 0; i < 15; i++) {
+            for (var j = 0; j < 15; j++) {
+                var chess = $_("div", chess_board, "", "chess");
+                chess.onclick = function () {
+                    if (Game.start == 0) {
+                        return;
                     }
-                    //$CLS(this,"black","add")
+                    if ((this.className.indexOf("black") <= -1) &&
+                        (this.className.indexOf("white") <= -1)) {
+                        var idx = index(this) - 1;
+                        Game.lastX = Game.posX;
+                        Game.lastY = Game.posY;
+                        Game.posX = idx / 15 | 0;
+                        Game.posY = idx % 15;
+                        // console.log(idx)
+                        console.log(Game.posX);
+                        console.log(Game.posY);
+                        console.log(Game.lastX);
+                        console.log(Game.lastX);
+                        (Game.chessStep(this));
+                    }
                 }
+                //$CLS(this,"black","add")
             }
-        },
+        }
+    },
 
-    endGame: function(opt){
+    endGame: function (opt) {
         Game.start = 0;
-        // switch(opt){
-        //     case 1:
-        //         for(var )
 
-        },
-    }
+         switch(opt){
+             case 1:
+                 for(var j = Game.posY-1; j>=0; j-- ){
+                     if()
+                 }
+
+        }
+    },
+}
 
     
                         
@@ -240,7 +271,7 @@ var Game= {
 
 
     Game.initChess();
-    markPos(1,1)
+    console.log("marked")
     // console.log($$(".chess")[0]);
     // var i = 0;
     // var chessPos = $$(".chess")[i];

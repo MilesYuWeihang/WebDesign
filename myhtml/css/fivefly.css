@@ -38,3 +38,11 @@
     background: url("../img/fivefly/white.png") no-repeat 4px 4px;
 
 }
+
+#chessboard div.white-mark{
+    background: url("../img/fivefly/white_last.png") no-repeat 4px 4px;;
+}
+
+#chessboard div.black-mark{
+    background: url("../img/fivefly/black_last.png") no-repeat 4px 4px;;
+}
