@@ -63,6 +63,8 @@
         }
     }
     var chess_board = $$("#chessboard");
+    var restart = $$("#reset");
+    var output = $$("#screem");
     function index(Obj){
 
         for (var i=0; i<255;i++){
@@ -87,6 +89,7 @@
     }
 
     function deMark(i,j,color){
+        if(i<0&&j<0) return;
         var index = i * 15 + j + 1;
         var tar = chess_board.childNodes[index];
         if (color == "black"){
@@ -105,11 +108,11 @@
 var Game= {
     start: 1,
     currTurn: "black",
-    posX: 0,
-    posY: 0,
+    posX: -1,
+    posY: -1,
     lastX: 0,
     lastY: 0,
-
+    color: 1,
 //isWin: return 0 not win
 //       return 1 row win
 //       return 2 column win
@@ -118,10 +121,10 @@ var Game= {
     isWin: function () {
         var num = 0;
         var conti = 1;
-        var color = board[Game.posX][Game.posY];
+
         //row
         for (var j = Math.max((Game.posY - 5), 0); j <= Math.min(Game.posY + 5, 14); j++) {
-            if (board[Game.posX][j] == color) {
+            if (board[Game.posX][j] == Game.color) {
                 conti = 1;
                 num++;
                 if (num >= 5) return 1;
@@ -135,7 +138,7 @@ var Game= {
         num = 0;
         //column
         for (var i = Math.max((Game.posX - 5), 0); i <= Math.min(Game.posX + 5, 14); i++) {
-            if (board[i][Game.posY] == color) {
+            if (board[i][Game.posY] == Game.color) {
                 conti = 1;
                 num++;
                 if (num >= 5) return 2;
@@ -154,7 +157,7 @@ var Game= {
         // console.log(left);
         // console.log(right);
         for (var i = Game.posX - left, j = Game.posY - left; i <= Game.posX + right, j <= Game.posY + right; i++, j++) {
-            if (board[i][j] == color) {
+            if (board[i][j] == Game.color) {
                 conti = 1;
                 num++;
 
@@ -172,7 +175,7 @@ var Game= {
         var left = Math.min(14 - Game.posX, Game.posY, 5);
         var right = Math.min(14 - Game.posY, Game.posX, 5);
         for (var i = Game.posX + left, j = Game.posY - left; i <= Game.posX - right, j <= Game.posY + right; i--, j++) {
-            if (board[i][j] == color) {
+            if (board[i][j] == Game.color) {
                 conti = 1;
                 num++;
 
@@ -205,9 +208,11 @@ var Game= {
         $CLS(pos, Game.currTurn, "add");
         if (Game.currTurn == "black") {
             board[Game.posX][Game.posY] = 1;
+            Game.color = 1;
         }
         else {
             board[Game.posX][Game.posY] = 2;
+            Game.color = 2;
         }
 
         //step2: check isWin
@@ -217,6 +222,9 @@ var Game= {
         markPos(Game.posX, Game.posY, Game.currTurn);
         if (winWay) {
             Game.endGame(winWay);
+            //output winner
+            var temp = Game.currTurn+" wins";
+            $T(output,temp);
 
         }
     },
@@ -224,6 +232,12 @@ var Game= {
 
     initChess: function () {
         Game.start = 1;
+        Game.currTurn = "black";
+            Game.posX = -1;
+            Game.posY =-1;
+            Game.lastX= 0;
+            Game.lastY= 0;
+            Game.color= 1;
         for (var i = 0; i < 15; i++) {
             for (var j = 0; j < 15; j++) {
                 var chess = $_("div", chess_board, "", "chess");
@@ -257,27 +271,104 @@ var Game= {
          switch(opt){
              case 1:
                  for(var j = Game.posY-1; j>=0; j-- ){
-                     if()
+                     if(Game.color == board[Game.posX][j]){
+                         markPos(Game.posX,j,Game.currTurn)
+                     }
+                     else{
+                         break;
+                     }
                  }
+                 for(var j = Game.posY+1; j<=14; j++ ){
+                     if(Game.color == board[Game.posX][j]){
+                         markPos(Game.posX,j,Game.currTurn)
+                     }
+                     else{
+                         break;
+                     }
+                 }
+                 break;
+             case 2:
+                 for(var i = Game.posX-1; i>=0; i-- ){
+                     if(Game.color == board[i][Game.posY]){
+                         markPos(i,Game.posY,Game.currTurn);
+                     }
+                     else{
+                         break;
+                     }
+                 }
+                 for(var i = Game.posX+1; i<=14; i++ ){
+                     if(Game.color == board[i][Game.posY]){
+                         markPos(i,Game.posY,Game.currTurn);
+                     }
+                     else{
+                         break;
+                     }
+                 }
+                 break;
+             case 3:
+                 for(var j = Game.posY- 1, i = Game.posX-1; i>=0, j>=0; i--,j-- ){
+                     if(Game.color == board[i][j]){
+                         markPos(i,j,Game.currTurn);
+                     }
+                     else{
+                         break;
+                     }
+                 }
+                 for(var j = Game.posY+ 1, i = Game.posX+1; i<=14, j<=14; i++,j++ ){
+                     if(Game.color == board[i][j]){
+                         markPos(i,j,Game.currTurn);
+                     }
+                     else{
+                         break;
+                     }
+                 }
+                 break;
+             case 4:
+                 for(var j = Game.posY- 1, i = Game.posX+1; i<=14, j>=0; i++,j-- ){
+                     if(Game.color == board[i][j]){
+                         markPos(i,j,Game.currTurn);
+                     }
+                     else{
+                         break;
+                     }
+                 }
+                 for(var j = Game.posY+ 1, i = Game.posX-1; i>=0, j<=14; i--,j++ ){
+                     if(Game.color == board[i][j]){
+                         markPos(i,j,Game.currTurn);
+                     }
+                     else{
+                         break;
+                     }
+                 }
+
+
+
 
         }
     },
 }
 
-    
-                        
+    function clear() {
+        restart.onclick = function () {
+            console.log("sss")
+            $R(chess_board, false);
+            for (var i = 0; i < 15; i++) {
+                for (var j = 0; j < 15; j++) {
+                    board[i][j] = 0;
+                }
+            }
+            $T(output,"")
+
+            Game.initChess();
+        };
+    }
+
+
 
     
 
 
     Game.initChess();
-    console.log("marked")
-    // console.log($$(".chess")[0]);
-    // var i = 0;
-    // var chessPos = $$(".chess")[i];
-    // chessPos.onclick =function () {
-        
-    //     console.log("hhhhhhhhhh");
-    // };
+    clear();
     console.log("chess loaded");
 })()

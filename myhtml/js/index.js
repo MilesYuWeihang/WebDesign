@@ -118,42 +118,7 @@
         
 
     }
-            function jumpPage(obj) {
-                $AJAX({
-                    type: "POST",
-                    url: "my2.html", //你的请求程序页面随便啦
-                    data: {
-                        name:"strrr"
-                    },
-                    success: function(msg) {
-                        if (msg) { //根据返回值进行跳转
-                            console.log(msg)
-                            //window.location.href = obj.url;
-                        }
-                    }
-                })
 
-
-
-            }
-
-                var obj = $$("#jump");
-                console.log(obj)
-
-            function clicktest(){
-
-                $$("#jump").onclick = function(){
-                    console.log("hhhhhhhhhh");
-                    (1==1)&&test();
-                }
-            }
-
-            function test(){
-                 console.log("continue");
-
-            }
-
-    clicktest();
 
     // (function(){
     // var jumps = BASE.creEle();
