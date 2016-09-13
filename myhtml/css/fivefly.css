@@ -69,3 +69,14 @@
 #chessboard div.black-mark{
     background: url("../img/fivefly/black_last.png") no-repeat 4px 4px;;
 }
+
+.white{
+    color: white;
+}
+.black{
+    color: black;
+}
+
+#screem{
+    color: red;
+}

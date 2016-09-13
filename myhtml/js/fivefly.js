@@ -223,8 +223,16 @@ var Game= {
         if (winWay) {
             Game.endGame(winWay);
             //output winner
-            var temp = Game.currTurn+" wins";
-            $T(output,temp);
+            var sp = $_("span",output);
+            if (Game.currTurn == "white") {
+                sp.className = "white";
+                $T(sp,"White");
+            }
+            else{
+                sp.className = "black";
+                $T(sp,"Black");
+            }
+            output.innerHTML+=" Wins"
 
         }
     },

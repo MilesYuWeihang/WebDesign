@@ -119,7 +119,17 @@
 
     }
 
+    function jump(){
+        $$("#game").onclick = function(){
+            LOC.href = "fivefly.html"
+        }
+        var title = ($$(".title")[0])
+        title.onclick = function(){
+            LOC.href = "main.html"
+        }
+    }
 
+    jump();
     // (function(){
     // var jumps = BASE.creEle();
     // jumps.url = "my3.html"
