@@ -74,7 +74,7 @@
         }
     }
     function markPos(i, j, color) {
-        var index = i * 15 + j + 1;
+        var index = i * 15 + j;
         var tar = chess_board.childNodes[index];
         if (color == "black"){
 
@@ -90,7 +90,7 @@
 
     function deMark(i,j,color){
         if(i<0&&j<0) return;
-        var index = i * 15 + j + 1;
+        var index = i * 15 + j;
         var tar = chess_board.childNodes[index];
         if (color == "black"){
 
@@ -214,7 +214,6 @@ var Game= {
             board[Game.posX][Game.posY] = 2;
             Game.color = 2;
         }
-
         //step2: check isWin
         var winWay = Game.isWin();
         var tempColor = (Game.currTurn=="black"? "white":"black");
@@ -255,7 +254,7 @@ var Game= {
                     }
                     if ((this.className.indexOf("black") <= -1) &&
                         (this.className.indexOf("white") <= -1)) {
-                        var idx = index(this) - 1;
+                        var idx = index(this);
                         Game.lastX = Game.posX;
                         Game.lastY = Game.posY;
                         Game.posX = idx / 15 | 0;
@@ -263,8 +262,8 @@ var Game= {
                         // console.log(idx)
                         console.log(Game.posX);
                         console.log(Game.posY);
-                        console.log(Game.lastX);
-                        console.log(Game.lastX);
+                        //console.log(Game.lastX);
+                        //console.log(Game.lastX);
                         (Game.chessStep(this));
                     }
                 }
@@ -314,7 +313,7 @@ var Game= {
                  }
                  break;
              case 3:
-                 for(var j = Game.posY- 1, i = Game.posX-1; i>=0, j>=0; i--,j-- ){
+                 for(var j = Game.posY- 1, i = Game.posX-1; i>=0&&j>=0; i--,j-- ){
                      if(Game.color == board[i][j]){
                          markPos(i,j,Game.currTurn);
                      }
@@ -322,7 +321,7 @@ var Game= {
                          break;
                      }
                  }
-                 for(var j = Game.posY+ 1, i = Game.posX+1; i<=14, j<=14; i++,j++ ){
+                 for(var j = Game.posY+ 1, i = Game.posX+1; i<=14&&j<=14; i++,j++ ){
                      if(Game.color == board[i][j]){
                          markPos(i,j,Game.currTurn);
                      }
@@ -332,7 +331,7 @@ var Game= {
                  }
                  break;
              case 4:
-                 for(var j = Game.posY- 1, i = Game.posX+1; i<=14, j>=0; i++,j-- ){
+                 for(var j = Game.posY- 1, i = Game.posX+1; i<=14&&j>=0; i++,j-- ){
                      if(Game.color == board[i][j]){
                          markPos(i,j,Game.currTurn);
                      }
@@ -340,7 +339,7 @@ var Game= {
                          break;
                      }
                  }
-                 for(var j = Game.posY+ 1, i = Game.posX-1; i>=0, j<=14; i--,j++ ){
+                 for( j = Game.posY+ 1, i = Game.posX-1; i>=0&&j<=14; i--,j++ ){
                      if(Game.color == board[i][j]){
                          markPos(i,j,Game.currTurn);
                      }
@@ -358,7 +357,7 @@ var Game= {
 
     function clear() {
         restart.onclick = function () {
-            console.log("sss")
+            console.log("clear")
             $R(chess_board, false);
             for (var i = 0; i < 15; i++) {
                 for (var j = 0; j < 15; j++) {
