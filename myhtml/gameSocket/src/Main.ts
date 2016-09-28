@@ -39,6 +39,10 @@ class Main extends egret.DisplayObjectContainer {
         super();
         this.addEventListener(egret.Event.ADDED_TO_STAGE, this.onAddToStage, this);
     }
+
+
+
+    
 private webSocket:egret.WebSocket;
 
 private onSocketOpen():void {    
@@ -132,12 +136,18 @@ private onReceiveMessage(e:egret.Event):void {
     this.webSocket.addEventListener(egret.ProgressEvent.SOCKET_DATA, this.onReceiveMessage, this);                            
     this.webSocket.addEventListener(egret.Event.CONNECT, this.onSocketOpen, this);    
     this.webSocket.connect("localhost", 8181);
-        var sky:egret.Bitmap = this.createBitmapByName("bg_jpg");
+        var sky:egret.Bitmap = this.createBitmapByName("back2_jpg");
         this.addChild(sky);
+this.stage.scaleMode = egret.StageScaleMode.FIXED_HEIGHT;
+        this.stage.stageWidth = 1080;
+        this.stage.stageHeight = 720;
+
         var stageW:number = this.stage.stageWidth;
         var stageH:number = this.stage.stageHeight;
         sky.width = stageW;
         sky.height = stageH;
+        console.log(this.stage.stageWidth);
+        console.log(stageW)
 
     }
 

@@ -114,12 +114,17 @@ var Main = (function (_super) {
         this.webSocket.addEventListener(egret.ProgressEvent.SOCKET_DATA, this.onReceiveMessage, this);
         this.webSocket.addEventListener(egret.Event.CONNECT, this.onSocketOpen, this);
         this.webSocket.connect("localhost", 8181);
-        var sky = this.createBitmapByName("bg_jpg");
+        var sky = this.createBitmapByName("back2_jpg");
         this.addChild(sky);
+        this.stage.scaleMode = egret.StageScaleMode.NO_SCALE;
+        this.stage.stageWidth = 720;
+        this.stage.stageHeight = 720;
         var stageW = this.stage.stageWidth;
         var stageH = this.stage.stageHeight;
         sky.width = stageW;
         sky.height = stageH;
+        console.log(this.stage.stageWidth);
+        console.log(stageW);
     };
     /**
      * 根据name关键字创建一个Bitmap对象。name属性请参考resources/resource.json配置文件的内容。
